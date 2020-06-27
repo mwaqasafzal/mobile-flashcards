@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import Button from './CustomBtn'
 import { red, green, lightBlue, blue } from '../utils/colors'
+import { connect } from 'react-redux'
+
 class Quiz extends Component {
   state = {
     questions: null,
@@ -9,14 +11,36 @@ class Quiz extends Component {
     questionNo: 0,
     showAnswer: false
   }
+
   componentDidMount() {
-    this.setState({ questions: [{ question: "Test", answer: "Test" }] });
+    //when screen will load only then this code(listener )will execute
+    const { route, decks, navigation } = this.props;
+
+    navigation.addListener('focus', () => {
+      const title = route.params.title;
+      const questions = decks[title].questions;
+      navigation.setOptions({ title });
+      this.setState({ questions });
+    });
+    navigation.addListener('blur', () => {
+      this.setState({ questions: null, showAnswer: false, score: 0, questionNo: 0 });
+    });
+
   }
   checkAnswer = result => {
+    let { questionNo, questions, score } = this.state;
+    const { navigation, route } = this.props;
     if (result === "correct")
-      this.setState(({ score }) => ({
-        score: score + 1
-      }))
+      score++;
+    questionNo++;
+
+    if (questionNo === questions.length)
+      return navigation.navigate("Score", {
+        score,
+        questions: questionNo,
+        title: route.params.title //if user wants to take the quiz again,this would to it him here
+      });//at that time questionNo will be equal to total questions
+    this.setState({ score, questionNo });
 
   }
 
@@ -31,18 +55,11 @@ class Quiz extends Component {
     if (!questions) {
       quiz = (
         <View style={styles.container}>
-          <Text>Loading...</Text>
+          <ActivityIndicator />
         </View>);
     }
-    else if (questions.length == 0)
-      quiz = (
-        <View style={styles.container}>
-          <Text>No Card Found</Text>
-        </View>
-      )
     else {
       const { question, answer } = questions[questionNo];
-
       let description = (
         <View style={styles.descPannel}>
           <Text style={styles.question}>{question}</Text>
@@ -119,12 +136,14 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 28,
     color: blue,
-    margin: 25
+    margin: 25,
+    textAlign: "center"
   },
   answer: {
     fontSize: 28,
     color: lightBlue,
-    margin: 25
+    margin: 25,
+    textAlign: "center"
   },
   questionsCount: {
     color: blue,
@@ -134,5 +153,8 @@ const styles = StyleSheet.create({
     left: 20
   }
 });
+const mapStateToProps = ({ decks }) => ({
+  decks
+})
 
-export default Quiz
+export default connect(mapStateToProps)(Quiz)

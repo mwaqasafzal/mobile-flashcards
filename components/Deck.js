@@ -15,13 +15,19 @@ const Deck = ({ decks, route, navigation, dispatch }) => {
                                                               before moving to home screen therefore
                                                               there will be no question
                                                               */
-    navigation.setOptions({ title: title });
+    navigation.setOptions({ title });
   }
 
   const addCard = () => {
     navigation.navigate("Add Card", { title: title });
   }
-  const startQuiz = () => { }
+  const startQuiz = () => {
+    if (deck.questions.length === 0)
+      return alert("Can't Take Quiz,No Card Found");
+
+    navigation.navigate("Take Quiz", { title });
+
+  }
   const deleteDeck = () => {
     //deleting from async storage then from store
     dispatch(removeDeckHandler(title));

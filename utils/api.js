@@ -3,21 +3,17 @@ import { STORAGE_KEY } from './configs'
 import { shapeTheDeck } from './helpers'
 
 export const saveDeckTitle = (title) => {
-  console.log(title);
+
   const deck = shapeTheDeck(title);
-  console.log('deck');
-  console.log(deck);
   return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify(deck))
     .then(res => deck);
 }
 
 export const getDecks = () => {
-  console.log('getting decks');
   return AsyncStorage
     .getItem(STORAGE_KEY)
     .then(res => {
       const decks = JSON.parse(res);
-      console.log(decks)
       return decks;
     });
 }
@@ -32,8 +28,6 @@ export const addCardToTheDeck = (deckId, card) => {
     .getItem(STORAGE_KEY)
     .then(res => {
       const decks = JSON.parse(res);
-      console.log('All Decks,now updating');
-      console.log(decks);
       const deck = decks[deckId];
       deck.questions.push(card);
       const updatedDecks = Object.assign({}, { [deckId]: deck }, decks);
@@ -44,7 +38,6 @@ export const addCardToTheDeck = (deckId, card) => {
 
 
 export const removeDeck = (deckId) => {
-  console.log("removing deck");
   return AsyncStorage
     .getItem(STORAGE_KEY)
     .then(res => {

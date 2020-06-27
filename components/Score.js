@@ -3,8 +3,15 @@ import { View, Text, StyleSheet } from 'react-native'
 import { blue, red } from '../utils/colors'
 import Button from './CustomBtn'
 
-const Score = ({ score = 0, questions = 0 }) => {
-
+const Score = ({ route, navigation }) => {
+  let score = 0;
+  let questions = 0;
+  let title = ""
+  if (route) {
+    score = route.params.score;
+    questions = route.params.questions;
+    title = route.params.title;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.scorePannel}>
@@ -15,12 +22,12 @@ const Score = ({ score = 0, questions = 0 }) => {
         <Button
           title="Quiz Again"
           style={styles.quizAgainBtn}
-          onPress={() => {/*quizAgain*/ }}
+          onPress={() => { navigation.navigate("Take Quiz", { title }) }}
         />
         <Text
           title="Go Home"
           style={{ color: red, textAlign: "center", textDecorationStyle: "solid" }}
-          onPress={() => {/*going home */ }}
+          onPress={() => { navigation.navigate("Flash Cards") }}
         >Go Home</Text>
       </View>
 

@@ -59,7 +59,7 @@ class AddCard extends Component {
           onPress={this.addTheCard} >
           <Text style={styles.submitBtnTxt}>Add Card</Text>
         </TouchableOpacity>
-      </ScrollView >
+      </ScrollView>
     );
   }
 }

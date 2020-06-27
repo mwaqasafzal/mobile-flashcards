@@ -1,6 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import DeckList from './components/DeckList'
 import Deck from './components/Deck'
 import AddCard from './components/AddCard'
@@ -27,7 +25,9 @@ export default function App() {
           <Stack.Screen name="Flash Cards" component={DeckList} />
           <Stack.Screen name="Create Deck" component={AddDeck} />
           <Stack.Screen name="Deck" component={Deck} />
-          <Stack.Screen name="Add Card" component={AddCard}/>
+          <Stack.Screen name="Add Card" component={AddCard} />
+          <Stack.Screen name="Take Quiz" component={Quiz} />
+          <Stack.Screen name="Score" component={Score} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
