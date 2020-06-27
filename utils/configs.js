@@ -1,1 +1,2 @@
 export const STORAGE_KEY = "FLASH_CARDS"
+export const LOCAL_NOTIFICATION_KEY = "FLASH_CARDS:QUIZ"

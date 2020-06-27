@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import Button from './CustomBtn'
 import { red, green, lightBlue, blue } from '../utils/colors'
 import { connect } from 'react-redux'
-
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers'
 class Quiz extends Component {
   state = {
     questions: null,
@@ -34,12 +34,18 @@ class Quiz extends Component {
       score++;
     questionNo++;
 
-    if (questionNo === questions.length)
+    if (questionNo === questions.length) {
+      //as the user has attempted the quiz, there clearing today's notification
+      //and setting it for upcoming day
+      clearLocalNotification()
+        .then(setLocalNotification)
       return navigation.navigate("Score", {
         score,
         questions: questionNo,
         title: route.params.title //if user wants to take the quiz again,this would to it him here
       });//at that time questionNo will be equal to total questions
+    }
+
     this.setState({ score, questionNo });
 
   }
