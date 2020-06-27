@@ -22,22 +22,13 @@ export const getDecks = () => {
     });
 }
 
-export const getDeck = deckId => {
-  return AsyncStorage
-    .getItem(STORAGE_KEY)
-    .then(res => {
-      const decks = JSON.parse(res);
-      return decks[deckId];
-    })
-}
-
 const updateDecks = (updatedDecks) => {
   AsyncStorage
     .setItem(STORAGE_KEY, JSON.stringify(updatedDecks));
 }
 
 export const addCardToTheDeck = (deckId, card) => {
-  AsyncStorage
+  return AsyncStorage
     .getItem(STORAGE_KEY)
     .then(res => {
       const decks = JSON.parse(res);

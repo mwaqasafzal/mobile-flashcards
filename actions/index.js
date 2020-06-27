@@ -1,4 +1,4 @@
-import { getDecks, saveDeckTitle, removeDeck } from '../utils/api'
+import { getDecks, saveDeckTitle, removeDeck, addCardToTheDeck } from '../utils/api'
 
 export const RECEIVE_DATA = "RECEIVE_DATA"
 export const ADD_DECK = "ADD_DECK"
@@ -31,7 +31,20 @@ export const removeDeckHandler = (deckId) => {
       })
   }
 }
-
+export const addCardHandler = deckCard => {
+  return dispatch => {
+    addCardToTheDeck(deckCard.deckId, deckCard.card)
+      .then(res => {
+        dispatch(addCard(deckCard));
+      });
+  }
+}
+const addCard = deckCard => {
+  return {
+    type: ADD_CARD,
+    deckCard
+  }
+}
 const receiveData = decks => ({
   type: RECEIVE_DATA,
   decks

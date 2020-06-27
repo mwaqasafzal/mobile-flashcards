@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAwareScrollView } from 'react-native'
 import { blue, white } from '../utils/colors'
+import { addCardHandler } from '../actions'
+import { connect } from 'react-redux'
 
 class AddCard extends Component {
   state = {
@@ -9,7 +11,16 @@ class AddCard extends Component {
   }
   addTheCard = () => {
     const { question, answer } = this.state;
-    console.log("adding card");
+    const { route, navigation, dispatch } = this.props;
+    const deckCard = {
+      deckId: route.params.title,
+      card: {
+        question,
+        answer
+      }
+    }
+    dispatch(addCardHandler(deckCard));
+    navigation.navigate("Flash Cards");
   }
   textChangeHandler = (type, text) => {
     if (type === "question")
@@ -87,4 +98,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default AddCard
+export default connect()(AddCard)

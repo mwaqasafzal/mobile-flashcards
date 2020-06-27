@@ -13,8 +13,19 @@ export default (state = {}, action) => {
         ...action.deck
       };
     case ADD_CARD:
-      //action.deck will be like{id,question:{}}
-      return;
+      {
+        //action.card will be like{id,question:{}}
+        const { deckId, card } = action.deckCard;
+        return {
+          ...state,
+          [deckId]: {
+            ...state[deckId],
+            questions: state[deckId].questions.concat(card)
+          }
+        }
+
+      }
+
     case REMOVE_DECK:
       {//using braces to scope the bindings
         const updatedState = { ...state };

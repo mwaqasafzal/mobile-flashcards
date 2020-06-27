@@ -18,7 +18,9 @@ const Deck = ({ decks, route, navigation, dispatch }) => {
     navigation.setOptions({ title: title });
   }
 
-  const addCard = () => { }
+  const addCard = () => {
+    navigation.navigate("Add Card", { title: title });
+  }
   const startQuiz = () => { }
   const deleteDeck = () => {
     //deleting from async storage then from store
@@ -29,7 +31,7 @@ const Deck = ({ decks, route, navigation, dispatch }) => {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Text style={{ textAlign: "center", color: lightBlue }}>{title} has {noOfQuestions} Cards</Text>
+        <Text style={{ textAlign: "center", color: lightBlue }}>{title} has {noOfQuestions} Card(s)</Text>
         <TouchableOpacity
           style={styles.addCard}
           onPress={addCard}>

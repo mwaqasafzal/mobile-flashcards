@@ -27,6 +27,7 @@ export default function App() {
           <Stack.Screen name="Flash Cards" component={DeckList} />
           <Stack.Screen name="Create Deck" component={AddDeck} />
           <Stack.Screen name="Deck" component={Deck} />
+          <Stack.Screen name="Add Card" component={AddCard}/>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
