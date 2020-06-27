@@ -2,14 +2,23 @@ import React, { Component } from 'react'
 import { View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAwareScrollView } from 'react-native'
 import { blue, white } from '../utils/colors'
 import Button from './CustomBtn'
+import { addDeckHandler } from '../actions'
+import { connect } from 'react-redux'
 
 class AddDeck extends Component {
   state = {
     title: ""
   }
   addTheDeck = () => {
-    const { title } = this.state;
-    console.log("adding Deck");
+    const title = this.state.title.trim();
+    const { dispatch, deckTitles, navigation } = this.props;
+
+    if (!deckTitles.includes(title)) {
+      dispatch(addDeckHandler(title));
+      navigation.navigate("Flash Cards");
+    }
+    else
+      alert("Deck with this title already exists");
   }
   textChangeHandler = (text) => {
     this.setState({ title: text });
@@ -38,7 +47,7 @@ class AddDeck extends Component {
               title="Add Deck"
               titleStyle={styles.submitBtnTxt}
             />
-          </ScrollView >
+          </ScrollView>
         </View>
       </View>
 
@@ -84,5 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(39,73,109,0.5)",
   }
 })
-
-export default AddDeck
+const mapStateToProps = ({ decks }) => ({
+  deckTitles: Object.keys(decks)
+})
+export default connect(mapStateToProps)(AddDeck)

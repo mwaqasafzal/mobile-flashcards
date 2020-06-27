@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 
   descPannel: {
     flex: 2,
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center"
   },
   btnContainer: {
@@ -118,11 +118,13 @@ const styles = StyleSheet.create({
   },
   question: {
     fontSize: 28,
-    color: blue
+    color: blue,
+    margin: 25
   },
   answer: {
     fontSize: 28,
-    color: lightBlue
+    color: lightBlue,
+    margin: 25
   },
   questionsCount: {
     color: blue,

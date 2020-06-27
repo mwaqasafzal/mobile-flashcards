@@ -1,18 +1,35 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { white, blue, red } from '../utils/colors'
+import { white, blue, red, lightBlue } from '../utils/colors'
+import { connect } from 'react-redux'
+import { removeDeckHandler } from '../actions'
 
-const Deck = ({ deckId }) => {
-  const noOfQuestions = 3;
+const Deck = ({ decks, route, navigation, dispatch }) => {
+
+  let title, deck, noOfQuestions = 0;
+  if (route) {
+    title = route.params.title;
+    deck = decks[title];
+    noOfQuestions = deck ? deck.questions.length : 0;/*this is for handling bug 
+                                                              as after deleting deck state updates
+                                                              before moving to home screen therefore
+                                                              there will be no question
+                                                              */
+    navigation.setOptions({ title: title });
+  }
 
   const addCard = () => { }
   const startQuiz = () => { }
-  const deleteDeck = () => { }
+  const deleteDeck = () => {
+    //deleting from async storage then from store
+    dispatch(removeDeckHandler(title));
+    navigation.navigate("Flash Cards");
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Text style={styles.questions}>Deck has {noOfQuestions} Cards</Text>
+        <Text style={{ textAlign: "center", color: lightBlue }}>{title} has {noOfQuestions} Cards</Text>
         <TouchableOpacity
           style={styles.addCard}
           onPress={addCard}>
@@ -58,5 +75,8 @@ const styles = StyleSheet.create({
   }
 
 });
+const mapStateToProps = ({ decks }) => ({
+  decks
+});
 
-export default Deck
+export default connect(mapStateToProps)(Deck)

@@ -2,9 +2,12 @@ import React from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { lightBlue, white } from '../utils/colors'
 
-const Deckinfo = ({ title, noOfQuestions }) => {
+const Deckinfo = ({ title, noOfQuestions, onPress }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPress}
+    >
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.questions}>{noOfQuestions} Card(s)</Text>
     </TouchableOpacity>
@@ -18,7 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: lightBlue,
-    borderRadius: 16
+    borderRadius: 16,
+    margin: 10
   },
   title: {
     fontSize: 22,
